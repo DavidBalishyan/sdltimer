@@ -7,7 +7,7 @@ but SDL3 rectangles (no fonts or textures needed).
 ## requirements
 
   - [SDL3](https://www.libsdl.org) (>= 3.2)
-  - [clibx](httpsL//github.com/DavidBalishyan/clibx) (self contained in the source code)
+  - [clibx](https://github.com/DavidBalishyan/clibx) (self contained in the source code)
   - a C compiler ([gcc](https://gcc.gnu.org) or [clang](https://clang.llvm.org))
   - [pkg-config](https://gitlab.freedesktop.org/pkg-config/pkg-config)
 
