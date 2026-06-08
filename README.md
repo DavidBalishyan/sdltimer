@@ -1,4 +1,4 @@
-# sdltimer - a simple SDL3 countdown timer
+# sdltimer
 
 Draws a big 7-segment digital countdown in an SDL3 window. Uses [**clibx**](https://github.com/DavidBalishyan/clibx)
 for logging and its boolean type. Renders the whole thing with nothing
@@ -36,24 +36,24 @@ The install prefix can be overridden:
 
 ## usage
 
-    ./sdltimer [TIMER_DURATION]
+    sdltimer [TIMER_DURATION]
 
 Default is 300 seconds (5 minutes).  TIMER_DURATION can be a plain
 number (seconds) or a human-readable string with h/m/s suffixes:
 
-    ./sdltimer 90          90 seconds
-    ./sdltimer 90s         90 seconds
-    ./sdltimer 5m          5 minutes
-    ./sdltimer 1h          1 hour
-    ./sdltimer 1h30m       1 hour 30 minutes
-    ./sdltimer 1h30m20s    1 hour 30 minutes 20 seconds
+    sdltimer 90          90 seconds
+    sdltimer 90s         90 seconds
+    sdltimer 5m          5 minutes
+    sdltimer 1h          1 hour
+    sdltimer 1h30m       1 hour 30 minutes
+    sdltimer 1h30m20s    1 hour 30 minutes 20 seconds
 
 For help or version info:
 
-    ./sdltimer --help
-    ./sdltimer -h
-    ./sdltimer --version
-    ./sdltimer -v
+    sdltimer --help
+    sdltimer -h
+    sdltimer --version
+    sdltimer -v
 
 Once the window opens:
 
@@ -63,14 +63,6 @@ Once the window opens:
 
 The display is red while running, dim amber while paused, and flashes
 red when time is up.  The colon blinks once per second.
-
-
-## files
-
-  main.c          entry point, event loop, window management
-  timer.h / .c    Timer struct + logic + 7-segment renderer
-  config.h        window size / flags
-  Makefile        build + install
 
 
 ## how it works
