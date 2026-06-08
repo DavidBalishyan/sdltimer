@@ -1,5 +1,5 @@
 #include <SDL3/SDL.h>
-#include <clibx/clibx.h>
+#include "clibx.h"
 #include "config.h"
 #include "timer.h"
 

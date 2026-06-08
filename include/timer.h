@@ -2,7 +2,7 @@
 #define TIMER_H
 
 #include <SDL3/SDL.h>
-#include <clibx/clibx.h>
+#include "clibx.h"
 
 typedef struct {
     int total_ms;

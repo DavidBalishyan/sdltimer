@@ -4,13 +4,12 @@ Draws a big 7-segment digital countdown in an SDL3 window. Uses [**clibx**](http
 for logging and its boolean type. Renders the whole thing with nothing
 but SDL3 rectangles (no fonts or textures needed).
 
-
 ## requirements
 
-  - [SDL3] (>= 3.2)
-  - [clibx](httpsL//github.com/DavidBalishyan/clibx)
-  - a C compiler (gcc or clang)
-  - [pkg-config]
+  - [SDL3](https://www.libsdl.org) (>= 3.2)
+  - [clibx](httpsL//github.com/DavidBalishyan/clibx) (self contained in the source code)
+  - a C compiler ([gcc](https://gcc.gnu.org) or [clang](https://clang.llvm.org))
+  - [pkg-config](https://gitlab.freedesktop.org/pkg-config/pkg-config)
 
 
 ## building
