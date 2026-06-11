@@ -10,11 +10,11 @@
 #define WIDTH 640
 #define HEIGHT 480
 
-// Default timer duration in seconds
-#define DEFAULT_SECONDS 300
-
 // https://wiki.libsdl.org/SDL3/SDL_WindowFlags
 #define WINDOW_FLAGS \
-    SDL_WINDOW_RESIZABLE 
+    SDL_WINDOW_RESIZABLE
+
+// Count-up colour-cycle period in seconds (default 360 = 6 min)
+#define COUNTUP_CYCLE_SECS 360
 
 #endif

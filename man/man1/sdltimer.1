@@ -1,16 +1,24 @@
 .TH SDLTIMER 1 "2026-06-08" "sdltimer 1.0" "User Commands"
 .SH NAME
-sdltimer \- countdown timer with SDL3 7-segment display
+sdltimer \- SDL3 countdown / count-up timer with 7-segment display
 .SH SYNOPSIS
 .B sdltimer
 [\fIduration\fR]
 .SH DESCRIPTION
 .B sdltimer
-opens an SDL3 window and shows a big red 7-segment countdown.
-It starts paused; press SPACE to begin.
+opens an SDL3 window with a 7-segment digital display.
 .PP
-The display shows MM:SS.  The colon blinks once per second while
-counting.  Timer state is reflected in the window title.
+If a duration is given the timer counts down from that value.
+Without an argument it counts up from zero indefinitely.
+.PP
+The display shows HH:MM:SS when an hour or more remains,
+otherwise MM:SS. The colon blinks once per second while
+counting. Timer state is reflected in the window title.
+.PP
+While running the digit colour changes dynamically:
+green when plenty of time remains, shifting through yellow
+to red as the timer approaches zero. In count-up mode the
+colour cycles through the same spectrum.
 .SH OPTIONS
 .TP
 .BR \-h ", " \-\-help
@@ -20,8 +28,8 @@ Show help and exit.
 Show version and exit.
 .TP
 .BI duration
-Countdown duration.  Can be a plain number (seconds) or use
-h/m/s suffixes.  Default is 300 (5 minutes).
+Countdown duration. Can be a plain number (seconds) or use
+h/m/s suffixes. Without this argument the timer counts up.
 .RS
 .PP
 Examples:
@@ -38,28 +46,27 @@ Examples:
 .SH CONTROLS
 .TP
 .B SPACE
-Start or pause the countdown.
+Start or pause.
 .TP
 .B r
-Reset the timer back to its initial duration.  Does nothing if the
-timer hasn't been started yet.
+Reset to the initial state (duration or zero).
 .TP
 .B ESC
 Quit.
 .SH STATES
 .TP
 Running
-Bright red digits, blinking colon.
+Bright digits with dynamic colour, blinking colon.
 .TP
 Paused
 Dim amber digits, colon stays on.
 .TP
 Finished
-Flashes red on and off every 500 ms.  Window title says FINISHED!.
+Flashes green on and off every 500 ms.  Window title says FINISHED!.
 .SH BUILD
 .B sdltimer
-depends on SDL3 (>= 3.2) and clibx.  Both should be discoverable
-through pkg-config.  Just run
+depends on SDL3 (>= 3.2) and clibx(self-contained header-only lib, lives in the project src). SDL3 should be discoverable
+through pkg-config. Just run
 .B make
 at the project root.
 .SH FILES
@@ -71,7 +78,7 @@ The binary (after install).
 This man page.
 .SH BUGS
 The 7-segment renderer uses integer math for segment positions, but
-SDL_FRect expects floats.  On very small windows the segments may
+SDL_FRect expects floats. On very small windows the segments may
 look squished.
 .PP
 Report bugs to the author or just fix them yourself.

@@ -1,17 +1,19 @@
 #include "timer.h"
+#include "config.h"
 
 void Timer_Init(Timer *t, int seconds) {
+    t->count_up = (seconds == 0);
     t->total_ms = seconds * 1000;
-    t->remaining_ms = t->total_ms;
+    t->remaining_ms = t->count_up ? 0 : t->total_ms;
     t->running = clibx_false;
-    t->finished = seconds <= 0;
+    t->finished = !t->count_up && seconds <= 0;
     t->start_time = 0;
     t->paused_duration = 0;
     t->pause_start = 0;
 }
 
 void Timer_Toggle(Timer *t) {
-    if (t->finished) return;
+    if (!t->count_up && t->finished) return;
     t->running = !t->running;
     if (t->running) {
         if (t->start_time == 0) {
@@ -25,7 +27,7 @@ void Timer_Toggle(Timer *t) {
 }
 
 void Timer_Reset(Timer *t) {
-    t->remaining_ms = t->total_ms;
+    t->remaining_ms = t->count_up ? 0 : t->total_ms;
     t->running = clibx_false;
     t->finished = clibx_false;
     t->start_time = 0;
@@ -37,7 +39,9 @@ void Timer_Update(Timer *t) {
     if (t->finished || !t->running) return;
     Uint64 now = SDL_GetTicks();
     Uint64 elapsed = (now - t->start_time) - t->paused_duration;
-    if (elapsed >= (Uint64)t->total_ms) {
+    if (t->count_up) {
+        t->remaining_ms = (int)elapsed;
+    } else if (elapsed >= (Uint64)t->total_ms) {
         t->remaining_ms = 0;
         t->running = clibx_false;
         t->finished = clibx_true;
@@ -114,9 +118,35 @@ void Timer_Render(SDL_Renderer *r, Timer *t, int win_w, int win_h) {
         if (flash) { rc = 40;  gc = 255; bc = 40;  br = 0;  bg = 40; bb = 0;  }
         else       { rc = 0;   gc = 60;  bc = 0;   br = 0;  bg = 10; bb = 0;  }
     } else if (t->running) {
-        rc = 240; gc = 60;  bc = 50;  br = 10; bg = 10; bb = 10;
+        int rv, gv;
+        if (t->count_up) {
+            int phase = (t->remaining_ms / 1000) % COUNTUP_CYCLE_SECS;
+            int third = COUNTUP_CYCLE_SECS / 3;
+            if (phase < third) {
+                int p = phase * 255 / (third - 1);
+                rv = p; gv = 255;
+            } else if (phase < third * 2) {
+                int p = (phase - third) * 255 / (third - 1);
+                rv = 255; gv = 255 - p;
+            } else {
+                int p = (phase - third * 2) * 255 / (third - 1);
+                rv = 255 - p; gv = p;
+            }
+        } else {
+            int frac = t->total_ms ? (int)((Uint64)t->remaining_ms * 255 / t->total_ms) : 0;
+            if (frac > 127) {
+                int p = (frac - 128) * 2;
+                rv = 255 - p; gv = 255;
+            } else {
+                int p = frac * 2;
+                rv = 255; gv = p;
+            }
+        }
+        rc = rv; gc = gv; bc = 0;
+        br = rv / 10; bg = gv / 10; bb = 0;
     } else {
-        rc = 100; gc = 40;  bc = 30;  br = 5;  bg = 5;  bb = 8;
+        rc = 100; gc = 40;  bc = 30;
+        br = 5;   bg = 5;   bb = 8;
     }
 
     SDL_SetRenderDrawColor(r, br, bg, bb, 255);

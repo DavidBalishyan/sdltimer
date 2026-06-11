@@ -1,8 +1,7 @@
 # sdltimer
 
-Draws a big 7-segment digital countdown in an SDL3 window. Uses [**clibx**](https://github.com/DavidBalishyan/clibx)
-for logging and its boolean type. Renders the whole thing with nothing
-but SDL3 rectangles (no fonts or textures needed).
+Draws a big 7-segment digital countdown or count-up in an SDL3 window. Uses [**clibx**](https://github.com/DavidBalishyan/clibx) for logging and its
+boolean type.  Renders the whole thing with nothing but SDL3 rectangles (no fonts or textures needed).
 
 ## requirements
 
@@ -11,16 +10,14 @@ but SDL3 rectangles (no fonts or textures needed).
   - a C compiler ([gcc](https://gcc.gnu.org) or [clang](https://clang.llvm.org))
   - [pkg-config](https://gitlab.freedesktop.org/pkg-config/pkg-config)
 
-
 ## building
 
     make
 
 This puts the .o files under build/ and the sdltimer binary in the
-current directory.  To clean up:
+current directory. To clean up:
 
     make clean
-
 
 ## installing
 
@@ -33,13 +30,12 @@ The install prefix can be overridden:
 
     make install PREFIX=/usr
 
-
 ## usage
 
     sdltimer [TIMER_DURATION]
 
-Default is 300 seconds (5 minutes).  TIMER_DURATION can be a plain
-number (seconds) or a human-readable string with h/m/s suffixes:
+Without an argument the timer counts up from zero indefinitely.
+With an argument it counts down from the given duration:
 
     sdltimer 90          90 seconds
     sdltimer 90s         90 seconds
@@ -58,28 +54,35 @@ For help or version info:
 Once the window opens:
 
     SPACE   start / pause
-    R       reset back to the initial duration
+    R       reset
     ESC     quit
 
-The display is red while running, dim amber while paused, and flashes
-red when time is up.  The colon blinks once per second.
+## colours
 
+  - **Running (countdown)** - smoothly shifts green → yellow → red as time
+    drains, giving a visual cue of remaining time.
+  - **Running (count-up)** - cycles through the same spectrum; the cycle
+    period is configurable via `COUNTUP_CYCLE_SECS` in `config.h`.
+  - **Paused** - dim amber.
+  - **Finished** - flashing green.
+
+The colon blinks once per second while running. The display shows HH:MM:SS
+when an hour or more remains, otherwise MM:SS.
 
 ## how it works
 
-The Timer struct stores the total duration and tracks elapsed time
-with SDL_GetTicks(), subtracting out any pause time.  Each frame the
-remaining seconds are split into four digits (MM:SS) and drawn with
-the 7-segment patterns in SEG[].  Each segment is a filled rectangle
+The Timer struct stores the total duration (or zero for count-up) and tracks
+elapsed time with SDL_GetTicks(), subtracting out any pause time.  Each frame
+the display value (remaining or elapsed) is split into digits and drawn with
+the 7-segment patterns in SEG[]. Every segment is a filled rectangle
 positioned so all seven fit together without gaps.
 
-When the countdown hits zero the finished flag is set, and the
-render loop alternates between bright and dark red every 500 ms.
+When a countdown hits zero the finished flag is set and the display flashes
+green every 500 ms.
 
-Both libraries are used at build time via pkg-config; clibx is
-header-only, so it costs nothing at link time.
-
+Both libraries are used at build time via pkg-config; clibx is header-only,
+so it costs nothing at link time.
 
 ## license
 
-See the [LICENSE](LICENSE) file
+See the [LICENSE](LICENSE) file ([GPLv3](https://www.gnu.org/licenses/gpl-3.0.html))

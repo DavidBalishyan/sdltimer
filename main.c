@@ -23,6 +23,7 @@ static void print_help(void) {
     printf("Usage: " NAME " [TIMER_DURATION]\n");
     printf("\n");
     printf("Opens an SDL3 window with a 7-segment countdown display.\n");
+    printf("Without an argument the timer counts up indefinitely.\n");
     printf("\n");
     printf("TIMER_DURATION can be:\n");
     printf("  a plain number   treated as seconds  (e.g. 90)\n");
@@ -31,7 +32,7 @@ static void print_help(void) {
     printf("                   1h       1 hour\n");
     printf("                   1h30m    1h 30m  (= 90m)\n");
     printf("                   1h30m20s 1h 30m 20s\n");
-    printf("                   default: 300 (5 minutes)\n");
+    printf("                   (default: count up)\n");
     printf("\n");
     printf("Controls:\n");
     printf("  SPACE   start / pause\n");
@@ -48,7 +49,7 @@ static void print_version(void) {
 }
 
 int main(int argc, char *argv[]) {
-    int seconds = DEFAULT_SECONDS;
+    int seconds = 0;
 
     if (argc > 1) {
         if (STREQ(argv[1], "--help") || STREQ(argv[1], "-h")) {
@@ -83,7 +84,10 @@ int main(int argc, char *argv[]) {
 
     Timer timer;
     Timer_Init(&timer, seconds);
-    LOG(NAME " set for %d seconds. SPACE=start/pause  R=reset  ESC=quit", seconds);
+    if (seconds > 0)
+        LOG(NAME " set for %d seconds. SPACE=start/pause  R=reset  ESC=quit", seconds);
+    else
+        LOG(NAME " counting up. SPACE=start/pause  R=reset  ESC=quit");
 
     clibx_bool quit = clibx_false;
     int prev_state = -1;

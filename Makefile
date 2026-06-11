@@ -18,6 +18,7 @@ help:
 	@echo "  make            - Build sdltimer binary"
 	@echo "  make install    - Install to $(PREFIX)"
 	@echo "  make uninstall  - Remove installed files"
+	@echo "  make reinstall  - Reinstall installed files"
 	@echo "  make clean      - Remove build artifacts"
 	@echo "  make help       - Show this message"
 
@@ -34,13 +35,15 @@ $(OBJDIR)/timer.o: timer.c include/timer.h | $(OBJDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 install: sdltimer
-	mkdir -p $(BINDIR) $(MANDIR)
-	cp sdltimer $(BINDIR)/sdltimer
-	cp $(MANPAGE) $(MANDIR)/sdltimer.1
-	chmod 755 $(BINDIR)/sdltimer
+	sudo mkdir -p $(BINDIR) $(MANDIR)
+	sudo cp sdltimer $(BINDIR)/sdltimer
+	sudo cp $(MANPAGE) $(MANDIR)/sdltimer.1
+	sudo chmod 755 $(BINDIR)/sdltimer
 
 uninstall:
-	rm -f $(BINDIR)/sdltimer $(MANDIR)/sdltimer.1
+	sudo rm -f $(BINDIR)/sdltimer $(MANDIR)/sdltimer.1
+
+reinstall: uninstall install
 
 clean:
 	rm -rf sdltimer $(OBJDIR)

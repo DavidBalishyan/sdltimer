@@ -9,6 +9,7 @@ typedef struct {
     int remaining_ms;
     clibx_bool running;
     clibx_bool finished;
+    clibx_bool count_up;
     Uint64 start_time;
     Uint64 paused_duration;
     Uint64 pause_start;
