@@ -21,7 +21,7 @@ current directory. To clean up:
 
 ## installing
 
-    sudo make install
+    make install
 
 Installs the binary to /usr/local/bin/sdltimer and the man page to
 /usr/local/share/man/man1/sdltimer.1.
