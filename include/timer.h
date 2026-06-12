@@ -2,6 +2,7 @@
 #define TIMER_H
 
 #include <SDL3/SDL.h>
+#define CLIBX_NO_PREFIX
 #include "clibx.h"
 
 typedef struct {

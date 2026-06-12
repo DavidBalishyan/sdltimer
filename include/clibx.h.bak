@@ -13,10 +13,6 @@
 #include <limits.h>
 #include <stdint.h>
 
-#ifndef XDEF
-#define XDEF static inline
-#endif /* XDEF: eXternal DEFinition, for controlling linkage of functions */
-
 /*
  * CLIBX - Minimal C Utility Library
  * --------------------------------------
@@ -36,38 +32,38 @@
 //
 
 /*
- * clibx_str (alias)
+ * str (alias)
  * --------------------------------------
  * A simple alias for char* to improve readability when
  * working with strings.
  * --------------------------------------
  * Equivalent to: char*
  * */
-typedef char *clibx_str;
+typedef char *str;
 
 //
 // Array utilities
 //
 
 /*
- * CLIBX_ARRAY_SIZE
+ * ARRAY_SIZE
  * --------------------------------------
  * Computes the number of elements in a static array.
  * Only works for arrays, NOT pointers.
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_ARRAY_SIZE(arr) (sizeof arr / sizeof arr[0])
+#define ARRAY_SIZE(arr) (sizeof arr / sizeof arr[0])
 
 /*
- * clibx_print_int_array
+ * print_int_array
  * --------------------------------------
  * Prints an integer array in [a, b, c] format.
  * --------------------------------------
  * Time complexity: O(n)
  * Space complexity: O(1)
  * */
-XDEF void clibx_print_int_array(const int *arr, size_t len) {
+static inline void clibx_print_int_array(const int *arr, size_t len) {
     printf("[");
     for (size_t i = 0; i < len; i++) {
         printf("%d", arr[i]);
@@ -77,14 +73,14 @@ XDEF void clibx_print_int_array(const int *arr, size_t len) {
 }
 
 /*
- * clibx_print_double_array
+ * print_double_array
  * --------------------------------------
  * Prints a double array in [a, b, c] format.
  * --------------------------------------
  * Time complexity: O(n)
  * Space complexity: O(1)
  * */
-XDEF void clibx_print_double_array(const double *arr, size_t len) {
+static inline void clibx_print_double_array(const double *arr, size_t len) {
     printf("[");
     for (size_t i = 0; i < len; i++) {
         printf("%f", arr[i]);
@@ -94,14 +90,14 @@ XDEF void clibx_print_double_array(const double *arr, size_t len) {
 }
 
 /*
- * clibx_print_char_array
+ * print_char_array
  * --------------------------------------
  * Prints a char array as ['a', 'b', 'c'].
  * --------------------------------------
  * Time complexity: O(n)
  * Space complexity: O(1)
  * */
-XDEF void clibx_print_char_array(const char *arr, size_t len) {
+static inline void clibx_print_char_array(const char *arr, size_t len) {
     printf("[");
     for (size_t i = 0; i < len; i++) {
         printf("'%c'", arr[i]);
@@ -122,7 +118,7 @@ XDEF void clibx_print_char_array(const char *arr, size_t len) {
  * --------------------------------------
  * Time complexity: O(1)
  * */
-XDEF double clibx_log2(double x) {
+static inline double clibx_log2(double x) {
     union {
         double d;
         uint64_t u;
@@ -178,7 +174,7 @@ XDEF double clibx_log2(double x) {
  * --------------------------------------
  * Time complexity: O(log exp)
  * */
-XDEF double clibx_pow(double base, double exp) {
+static inline double clibx_pow(double base, double exp) {
     if (exp == 0.0) return 1.0;
     if (base == 0.0) return 0.0;
     if (exp == 1.0) return base;
@@ -213,7 +209,7 @@ XDEF double clibx_pow(double base, double exp) {
  * --------------------------------------
  * Time complexity: O(1)
  * */
-XDEF double clibx_ceil(double x) {
+static inline double clibx_ceil(double x) {
     if (x == (int)x) return x;
     return (x > 0.0) ? (int)x + 1 : (int)x;
 }
@@ -225,7 +221,7 @@ XDEF double clibx_ceil(double x) {
  * --------------------------------------
  * Time complexity: O(1)
  * */
-XDEF double clibx_floor(double x) {
+static inline double clibx_floor(double x) {
     if (x == (int)x) return x;
     return (x > 0.0) ? (int)x : (int)x - 1;
 }
@@ -237,40 +233,40 @@ XDEF double clibx_floor(double x) {
  * --------------------------------------
  * Time complexity: O(1)
  * */
-XDEF double clibx_round(double x) {
+static inline double clibx_round(double x) {
     return (x >= 0.0) ? clibx_floor(x + 0.5) : clibx_ceil(x - 0.5);
 }
 
 /*
- * CLIBX_MIN / CLIBX_MAX
+ * MIN / MAX
  * --------------------------------------
  * Returns the minimum / maximum of two values.
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_MIN(a, b) ((a) < (b) ? (a) : (b))
-#define CLIBX_MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 /*
- * CLIBX_CLAMP
+ * CLAMP
  * --------------------------------------
  * Restricts a value x to the range [min, max].
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_CLAMP(x, min, max) ((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))
+#define CLAMP(x, min, max) ((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))
 
 /*
- * CLIBX_ABS
+ * ABS
  * --------------------------------------
  * Computes absolute value.
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_ABS(x) ((x) < 0 ? -(x) : (x))
+#define ABS(x) ((x) < 0 ? -(x) : (x))
 
 /*
- * CLIBX_LERP (Linear Interpolation)
+ * LERP (Linear Interpolation)
  * --------------------------------------
  * Interpolates between v0 and v1 using parameter t.
  * t = 0 -> v0, t = 1 -> v1
@@ -278,56 +274,56 @@ XDEF double clibx_round(double x) {
  * Complexity: O(1)
  * https://en.wikipedia.org/wiki/Linear_interpolation
  * */
-#define CLIBX_LERP(v0, v1, t) ((v0) + (t) * ((v1) - (v0)))
+#define LERP(v0, v1, t) ((v0) + (t) * ((v1) - (v0)))
 
 /*
- * CLIBX_IS_POWER_OF_2
+ * IS_POWER_OF_2
  * --------------------------------------
  * Checks if n is a power of 2.
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_IS_POWER_OF_2(n) ((n) && !((n) & ((n) - 1)))
+#define IS_POWER_OF_2(n) ((n) && !((n) & ((n) - 1)))
 
 /*
- * CLIBX_NEXT_POWER_OF_2
+ * NEXT_POWER_OF_2
  * --------------------------------------
  * Computes the next power of 2 greater than n.
  * Uses floating-point math internally.
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_NEXT_POWER_OF_2(n) ((int)clibx_pow(2, clibx_ceil(clibx_log2((n) + 1))))
+#define NEXT_POWER_OF_2(n) ((int)clibx_pow(2, clibx_ceil(clibx_log2((n) + 1))))
 
 //
 // Memory utilities
 //
 
 /*
- * CLIBX_NEW / CLIBX_NEW_ARRAY / CLIBX_NEW_ZEROED
+ * NEW / NEW_ARRAY / NEW_ZEROED
  * --------------------------------------
  * Memory allocation helpers:
- * - CLIBX_NEW: allocate one object
- * - CLIBX_NEW_ARRAY: allocate array
- * - CLIBX_NEW_ZEROED: allocate zero-initialized object
+ * - NEW: allocate one object
+ * - NEW_ARRAY: allocate array
+ * - NEW_ZEROED: allocate zero-initialized object
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_NEW(type)              ((type*)malloc(sizeof(type)))
-#define CLIBX_NEW_ARRAY(type, count) ((type*)malloc(sizeof(type) * (count)))
-#define CLIBX_NEW_ZEROED(type)       ((type*)calloc(1, sizeof(type)))
+#define NEW(type)              ((type*)malloc(sizeof(type)))
+#define NEW_ARRAY(type, count) ((type*)malloc(sizeof(type) * (count)))
+#define NEW_ZEROED(type)       ((type*)calloc(1, sizeof(type)))
 
 /*
- * CLIBX_FREE
+ * FREE
  * --------------------------------------
  * Frees memory and sets pointer to NULL.
  * Prevents dangling pointer bugs.
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_FREE(ptr) do { \
-    free(ptr);               \
-    ptr = NULL;              \
+#define FREE(ptr) do { \
+    free(ptr);         \
+    ptr = NULL;        \
 } while(0)
 
 //
@@ -337,63 +333,63 @@ XDEF double clibx_round(double x) {
 #ifdef __GNUC__
 
 /*
- * CLIBX_SWAP
+ * SWAP
  * --------------------------------------
  * Swaps two variables using type inference.
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_SWAP(a, b) do {          \
-    __typeof__(a) _tmp = (a);          \
-    (a) = (b);                         \
-    (b) = _tmp;                        \
+#define SWAP(a, b) do {          \
+    __typeof__(a) _tmp = (a);    \
+    (a) = (b);                   \
+    (b) = _tmp;                  \
 } while(0)
 
 /*
  * Branch prediction hints
  * */
-#define CLIBX_LIKELY(x)    __builtin_expect(!!(x), 1)
-#define CLIBX_UNLIKELY(x)  __builtin_expect(!!(x), 0)
+#define LIKELY(x)    __builtin_expect(!!(x), 1)
+#define UNLIKELY(x)  __builtin_expect(!!(x), 0)
 
 /*
- * CLIBX_UNUSED
+ * UNUSED
  * --------------------------------------
  * Suppresses unused variable warnings.
  * */
-#define CLIBX_UNUSED(x) (void)(x)
+#define UNUSED(x) (void)(x)
 
 /*
  * Attributes
  * */
-#define CLIBX_DEPRECATED   __attribute__((deprecated))
-#define CLIBX_NODISCARD    __attribute__((warn_unused_result))
+#define DEPRECATED   __attribute__((deprecated))
+#define NODISCARD    __attribute__((warn_unused_result))
 
 /*
  * Type utilities
  * */
-#define CLIBX_TYPE_NAME(x) __typeof__(x)
-#define CLIBX_TYPE_FUNC(x) _Generic((x), default: __PRETTY_FUNCTION__)
+#define TYPE_NAME(x) __typeof__(x)
+#define TYPE_FUNC(x) _Generic((x), default: __PRETTY_FUNCTION__)
 
 #else
 
 /*
- * Portable CLIBX_SWAP fallback (memcpy-based)
+ * Portable SWAP fallback (memcpy-based)
  * */
-#define CLIBX_SWAP(a, b) do {     \
-    char _tmp[sizeof(a)];         \
+#define SWAP(a, b) do {     \
+    char _tmp[sizeof(a)];   \
     memcpy(_tmp,  &(a), sizeof(a)); \
     memcpy(&(a),  &(b), sizeof(a)); \
     memcpy(&(b),  _tmp, sizeof(a)); \
 } while(0)
 
-#define CLIBX_LIKELY(x)    (x)
-#define CLIBX_UNLIKELY(x)  (x)
-#define CLIBX_UNUSED(x)    (void)(x)
-#define CLIBX_DEPRECATED
-#define CLIBX_NODISCARD
+#define LIKELY(x)    (x)
+#define UNLIKELY(x)  (x)
+#define UNUSED(x)    (void)(x)
+#define DEPRECATED
+#define NODISCARD
 
-#define CLIBX_TYPE_NAME(x) void
-#define CLIBX_TYPE_FUNC(x) "<CLIBX_TYPE_FUNC unavailable: requires GCC/Clang>"
+#define TYPE_NAME(x) void
+#define TYPE_FUNC(x) "<TYPE_FUNC unavailable: requires GCC/Clang>"
 
 #endif
 
@@ -402,75 +398,75 @@ XDEF double clibx_round(double x) {
 //
 
 /*
- * CLIBX_LOG
+ * LOG
  * --------------------------------------
  * Prints a formatted log message to stderr.
  * */
-#define CLIBX_LOG(fmt, ...) \
+#define LOG(fmt, ...) \
     fprintf(stderr, "\033[1m\033[1;33m[LOG] \033[0m " fmt "\n", ##__VA_ARGS__)
 
 /*
- * CLIBX_ERROR
+ * ERROR
  * --------------------------------------
  * Prints error message and exits program.
  * Includes file and line information.
  * */
-#define CLIBX_ERROR(fmt, ...) do { \
+#define ERROR(fmt, ...) do { \
     fprintf(stderr, "\033[1m\033[1;31m[ERROR] \033[0m %s:%d: " fmt "\n", \
             __FILE__, __LINE__, ##__VA_ARGS__); \
     exit(EXIT_FAILURE); \
 } while(0)
 
 /*
- * CLIBX_ASSERT
+ * ASSERT
  * --------------------------------------
  * Runtime assertion with message.
  * */
-#define CLIBX_ASSERT(cond, msg) do { \
-    if (!(cond)) { CLIBX_ERROR("Assertion failed: %s", msg); } \
+#define ASSERT(cond, msg) do { \
+    if (!(cond)) { ERROR("Assertion failed: %s", msg); } \
 } while(0)
 
-#define CLIBX_UNIMPLEMENTED() CLIBX_ERROR("not yet implemented")
-#define CLIBX_UNREACHABLE()   CLIBX_ERROR("unreachable code reached")
+#define UNIMPLEMENTED() ERROR("not yet implemented")
+#define UNREACHABLE()   ERROR("unreachable code reached")
 
 //
 // Loop helpers
 //
 
 /*
- * CLIBX_FOR / CLIBX_FOR_RANGE
+ * FOR / FOR_RANGE
  * --------------------------------------
  * Simplified loop macros.
  * --------------------------------------
- * CLIBX_FOR(i, n):         0 -> n-1
- * CLIBX_FOR_RANGE(i,a,b):  a -> b-1
+ * FOR(i, n):         0 -> n-1
+ * FOR_RANGE(i,a,b):  a -> b-1
  * */
-#define CLIBX_FOR(i, n)                for (size_t i = 0; i < (n); i++)
-#define CLIBX_FOR_RANGE(i, start, end) for (size_t i = (start); i < (end); i++)
+#define FOR(i, n)                for (size_t i = 0; i < (n); i++)
+#define FOR_RANGE(i, start, end) for (size_t i = (start); i < (end); i++)
 
 //
 // Bitwise operations
 //
 
 /*
- * CLIBX_BIT / CLIBX_SET_BIT / CLIBX_CLEAR_BIT / CLIBX_TOGGLE_BIT / CLIBX_CHECK_BIT
+ * BIT / SET_BIT / CLEAR_BIT / TOGGLE_BIT / CHECK_BIT
  * --------------------------------------
  * Bit manipulation macros.
  * --------------------------------------
  * Complexity: O(1)
  * */
-#define CLIBX_BIT(x) (1ULL << (x))
-#define CLIBX_SET_BIT(val, pos)   ((val) |= CLIBX_BIT(pos))
-#define CLIBX_CLEAR_BIT(val, pos) ((val) &= ~CLIBX_BIT(pos))
-#define CLIBX_TOGGLE_BIT(val, pos) ((val) ^= CLIBX_BIT(pos))
-#define CLIBX_CHECK_BIT(val, pos) (((val) & CLIBX_BIT(pos)) != 0)
+#define BIT(x) (1ULL << (x))
+#define SET_BIT(val, pos)   ((val) |= BIT(pos))
+#define CLEAR_BIT(val, pos) ((val) &= ~BIT(pos))
+#define TOGGLE_BIT(val, pos) ((val) ^= BIT(pos))
+#define CHECK_BIT(val, pos) (((val) & BIT(pos)) != 0)
 
 //
 // Booleans
 //
 
 #ifndef __cplusplus
-    #define clibx_isset_boolean
+	#define clibx_isset_boolean
     #define clibx_bool  int
     #define clibx_true  1
     #define clibx_false 0
@@ -488,55 +484,55 @@ XDEF double clibx_round(double x) {
 //
 
 /*
- * CLIBX_STREQ
+ * STREQ
  * --------------------------------------
  * Compares two strings for equality.
  * */
-#define CLIBX_STREQ(a, b) (strcmp((a), (b)) == 0)
+#define STREQ(a, b) (strcmp((a), (b)) == 0)
 
 /*
- * CLIBX_STR_EMPTY
+ * STR_EMPTY
  * --------------------------------------
  * Checks if string is empty.
  * */
-#define CLIBX_STR_EMPTY(s) ((s)[0] == '\0')
+#define STR_EMPTY(s) ((s)[0] == '\0')
 
 /*
- * CLIBX_STR_STARTS_WITH
+ * STR_STARTS_WITH
  * --------------------------------------
  * Checks if string starts with prefix.
  * */
-#define CLIBX_STR_STARTS_WITH(s, p) (strncmp((s), (p), strlen(p)) == 0)
+#define STR_STARTS_WITH(s, p) (strncmp((s), (p), strlen(p)) == 0)
 
 //
 // Type introspection
 //
 
 /*
- * CLIBX_TYPE_STR
+ * TYPE_STR
  * --------------------------------------
  * Returns string representation of type.
  * */
-#define CLIBX_TYPE_STR(x) _Generic((x),   \
-    int:     "int",                      \
-    long:    "long",                     \
-    float:   "float",                    \
-    double:  "double",                   \
-    char:    "char",                     \
-    default: "unknown by CLIBX_TYPE_STR")
+#define TYPE_STR(x) _Generic((x),   \
+    int:     "int",                \
+    long:    "long",               \
+    float:   "float",              \
+    double:  "double",             \
+    char:    "char",               \
+    default: "unknown by TYPE_STR")
 
 /*
- * CLIBX_PRINT
+ * PRINT
  * --------------------------------------
  * Generic print macro for basic types.
  * */
-#define CLIBX_PRINT(x) _Generic((x),        \
-    int:     printf("%d\n",  (x)),          \
-    long:    printf("%ld\n", (x)),          \
-    float:   printf("%f\n",  (x)),          \
-    double:  printf("%f\n",  (x)),          \
-    char:    printf("%c\n",  (x)),          \
-    char*:   printf("%s\n",  (x)),          \
+#define PRINT(x) _Generic((x),        \
+    int:     printf("%d\n",  (x)),    \
+    long:    printf("%ld\n", (x)),    \
+    float:   printf("%f\n",  (x)),    \
+    double:  printf("%f\n",  (x)),    \
+    char:    printf("%c\n",  (x)),    \
+    char*:   printf("%s\n",  (x)),    \
     default: printf("<unknown type>\n"))
 
 //
@@ -544,14 +540,14 @@ XDEF double clibx_round(double x) {
 //
 
 /*
- * clibx_read_line
+ * read_line
  * --------------------------------------
  * Reads a line from stdin safely.
  * Removes trailing newline if present.
  * --------------------------------------
  * Time complexity: O(n)
  * */
-XDEF void clibx_read_line(char *buffer, size_t size) {
+static inline void clibx_read_line(char *buffer, size_t size) {
     if (fgets(buffer, size, stdin)) {
         size_t len = strlen(buffer);
         if (len > 0 && buffer[len - 1] == '\n')
@@ -564,43 +560,43 @@ XDEF void clibx_read_line(char *buffer, size_t size) {
 //
 
 typedef struct {
-    clibx_str *data;
+    str *data;
     size_t length;
     size_t capacity;
 } clibx_str_vec;
 
 /*
- * clibx_vec_init
+ * vec_init
  * --------------------------------------
  * Initialize an empty string vector.
  * */
-XDEF clibx_str_vec clibx_vec_init(void) {
+static inline clibx_str_vec clibx_vec_init(void) {
     return (clibx_str_vec){ .data = NULL, .length = 0, .capacity = 0 };
 }
 
 /*
- * clibx_vec_push
+ * vec_push
  * --------------------------------------
  * Append a string to the vector.
  * */
-XDEF void clibx_vec_push(clibx_str_vec *vec, clibx_str value) {
+static inline void clibx_vec_push(clibx_str_vec *vec, str value) {
     if (vec->length >= vec->capacity) {
         size_t new_cap = vec->capacity == 0 ? 8 : vec->capacity * 2;
-        vec->data = (clibx_str *)realloc(vec->data, sizeof(clibx_str) * new_cap);
-        CLIBX_ASSERT(vec->data != NULL, "clibx_vec_push: realloc failed");
+        vec->data = (str *)realloc(vec->data, sizeof(str) * new_cap);
+        ASSERT(vec->data != NULL, "vec_push: realloc failed");
         vec->capacity = new_cap;
     }
     vec->data[vec->length++] = value;
 }
 
 /*
- * clibx_vec_free
+ * vec_free
  * --------------------------------------
  * Free the vector's internal data.
  * Does NOT free individual strings.
  * */
-XDEF void clibx_vec_free(clibx_str_vec *vec) {
-    CLIBX_FREE(vec->data);
+static inline void clibx_vec_free(clibx_str_vec *vec) {
+    FREE(vec->data);
     vec->length = 0;
     vec->capacity = 0;
 }
@@ -610,40 +606,40 @@ XDEF void clibx_vec_free(clibx_str_vec *vec) {
 //
 
 /*
- * clibx_strtrim
+ * strtrim
  * --------------------------------------
  * Returns a newly allocated trimmed string (leading/trailing whitespace removed).
  * Caller must free the result.
  * --------------------------------------
  * Time complexity: O(n)
  * */
-XDEF clibx_str clibx_strtrim(clibx_str s) {
+static inline str clibx_strtrim(str s) {
     if (!s || *s == '\0') return strdup("");
 
-    clibx_str copy = strdup(s);
-    clibx_str start = copy;
+    str copy = strdup(s);
+    str start = copy;
     while (*start == ' ' || *start == '\t' || *start == '\n' || *start == '\r') start++;
     if (*start == '\0') { free(copy); return strdup(""); }
 
-    clibx_str end = start + strlen(start) - 1;
+    str end = start + strlen(start) - 1;
     while (end > start && (*end == ' ' || *end == '\t' || *end == '\n' || *end == '\r'))
         end--;
     *(end + 1) = '\0';
 
-    clibx_str result = strdup(start);
+    str result = strdup(start);
     free(copy);
     return result;
 }
 
 /*
- * clibx_strsplit
+ * strsplit
  * --------------------------------------
  * Splits a string by delimiter into a vec.
  * Caller must free vec and individual strings.
  * --------------------------------------
  * Time complexity: O(n)
  * */
-XDEF clibx_str_vec clibx_strsplit(clibx_str input, char delim) {
+static inline clibx_str_vec clibx_strsplit(str input, char delim) {
     clibx_str_vec result = clibx_vec_init();
     char *copy = strdup(input);
     char delim_str[2] = {delim, '\0'};
@@ -659,14 +655,14 @@ XDEF clibx_str_vec clibx_strsplit(clibx_str input, char delim) {
 }
 
 /*
- * clibx_strjoin
+ * strjoin
  * --------------------------------------
  * Joins an array of strings with a separator.
  * Returns a newly allocated string. Caller must free.
  * --------------------------------------
  * Time complexity: O(n)
  * */
-XDEF clibx_str clibx_strjoin(clibx_str *arr, size_t len, clibx_str sep) {
+static inline str clibx_strjoin(str *arr, size_t len, str sep) {
     if (len == 0) return strdup("");
 
     size_t total_len = 0;
@@ -675,8 +671,8 @@ XDEF clibx_str clibx_strjoin(clibx_str *arr, size_t len, clibx_str sep) {
         if (i < len - 1) total_len += strlen(sep);
     }
 
-    clibx_str result = CLIBX_NEW_ARRAY(char, total_len + 1);
-    CLIBX_ASSERT(result != NULL, "clibx_strjoin: malloc failed");
+    str result = NEW_ARRAY(char, total_len + 1);
+    ASSERT(result != NULL, "strjoin: malloc failed");
 
     result[0] = '\0';
     for (size_t i = 0; i < len; i++) {
@@ -688,18 +684,18 @@ XDEF clibx_str clibx_strjoin(clibx_str *arr, size_t len, clibx_str sep) {
 }
 
 /*
- * CLIBX_STR_CONTAINS
+ * str_contains
  * --------------------------------------
  * Checks if haystack contains needle.
  * */
-#define CLIBX_STR_CONTAINS(haystack, needle) (strstr((haystack), (needle)) != NULL)
+#define STR_CONTAINS(haystack, needle) (strstr((haystack), (needle)) != NULL)
 
 /*
- * clibx_str_to_lower
+ * str_to_lower
  * --------------------------------------
  * Converts string to lowercase in place. Returns same pointer.
  * */
-XDEF clibx_str clibx_str_to_lower(clibx_str s) {
+static inline str clibx_str_to_lower(str s) {
     for (size_t i = 0; s[i]; i++) {
         if (s[i] >= 'A' && s[i] <= 'Z')
             s[i] = s[i] + 32;
@@ -708,11 +704,11 @@ XDEF clibx_str clibx_str_to_lower(clibx_str s) {
 }
 
 /*
- * clibx_str_to_upper
+ * str_to_upper
  * --------------------------------------
  * Converts string to uppercase in place. Returns same pointer.
  * */
-XDEF clibx_str clibx_str_to_upper(clibx_str s) {
+static inline str clibx_str_to_upper(str s) {
     for (size_t i = 0; s[i]; i++) {
         if (s[i] >= 'a' && s[i] <= 'z')
             s[i] = s[i] - 32;
@@ -725,95 +721,95 @@ XDEF clibx_str clibx_str_to_upper(clibx_str s) {
 //
 
 /*
- * clibx_path_basename
+ * path_basename
  * --------------------------------------
  * Returns the filename component of a path.
  * */
-XDEF clibx_str clibx_path_basename(clibx_str path) {
+static inline str clibx_path_basename(str path) {
     char *copy = strdup(path);
-    clibx_str result = strdup(basename(copy));
+    str result = strdup(basename(copy));
     free(copy);
     return result;
 }
 
 /*
- * clibx_path_dirname
+ * path_dirname
  * --------------------------------------
  * Returns the directory component of a path.
  * */
-XDEF clibx_str clibx_path_dirname(clibx_str path) {
+static inline str clibx_path_dirname(str path) {
     char *copy = strdup(path);
-    clibx_str result = strdup(dirname(copy));
+    str result = strdup(dirname(copy));
     free(copy);
     return result;
 }
 
 /*
- * clibx_path_extension
+ * path_extension
  * --------------------------------------
  * Returns the file extension (without dot), or empty string.
  * */
-XDEF clibx_str clibx_path_extension(clibx_str path) {
-    clibx_str base = clibx_path_basename(path);
-    clibx_str dot = strrchr(base, '.');
-    clibx_str ext = dot ? strdup(dot + 1) : strdup("");
+static inline str clibx_path_extension(str path) {
+    str base = clibx_path_basename(path);
+    str dot = strrchr(base, '.');
+    str ext = dot ? strdup(dot + 1) : strdup("");
     free(base);
     return ext;
 }
 
 /*
- * clibx_path_join
+ * path_join
  * --------------------------------------
  * Joins two path components with '/'.
  * Returns a newly allocated string. Caller must free.
  * */
-XDEF clibx_str clibx_path_join(clibx_str a, clibx_str b) {
+static inline str clibx_path_join(str a, str b) {
     size_t len_a = strlen(a);
     size_t len_b = strlen(b);
     size_t sep = (len_a > 0 && a[len_a - 1] != '/') ? 1 : 0;
 
-    clibx_str result = CLIBX_NEW_ARRAY(char, len_a + sep + len_b + 1);
-    CLIBX_ASSERT(result != NULL, "clibx_path_join: malloc failed");
+    str result = NEW_ARRAY(char, len_a + sep + len_b + 1);
+    ASSERT(result != NULL, "path_join: malloc failed");
 
     sprintf(result, "%s%s%s", a, sep ? "/" : "", b);
     return result;
 }
 
 /*
- * clibx_path_exists
+ * path_exists
  * --------------------------------------
  * Checks if a path exists on disk.
  * */
-XDEF clibx_bool clibx_path_exists(clibx_str path) {
+static inline clibx_bool clibx_path_exists(str path) {
     return access(path, F_OK) == 0;
 }
 
 /*
- * clibx_path_is_dir
+ * path_is_dir
  * --------------------------------------
  * Checks if a path is a directory.
  * */
-XDEF clibx_bool clibx_path_is_dir(clibx_str path) {
+static inline clibx_bool clibx_path_is_dir(str path) {
     struct stat st;
     return (stat(path, &st) == 0 && S_ISDIR(st.st_mode));
 }
 
 /*
- * clibx_path_is_file
+ * path_is_file
  * --------------------------------------
  * Checks if a path is a regular file.
  * */
-XDEF clibx_bool clibx_path_is_file(clibx_str path) {
+static inline clibx_bool clibx_path_is_file(str path) {
     struct stat st;
     return (stat(path, &st) == 0 && S_ISREG(st.st_mode));
 }
 
 /*
- * clibx_path_file_size
+ * path_file_size
  * --------------------------------------
  * Returns file size in bytes, or -1 on error.
  * */
-XDEF long clibx_path_file_size(clibx_str path) {
+static inline long clibx_path_file_size(str path) {
     struct stat st;
     if (stat(path, &st) != 0) return -1;
     return (long)st.st_size;
@@ -836,7 +832,7 @@ XDEF long clibx_path_file_size(clibx_str path) {
  *   - free_val: destructor for values (can be NULL if values don't need freeing)
  *
  * A string-specialized convenience API (hashmap_init_str, etc.) is
- * provided for the common clibx_str->clibx_str use case.
+ * provided for the common str→str use case.
  * --------------------------------------
  */
 
@@ -846,17 +842,17 @@ typedef unsigned long (*clibx_hash_fn)(void *key);
 typedef int           (*clibx_cmp_fn)(void *a, void *b);
 typedef void          (*clibx_free_fn)(void *data);
 
-XDEF unsigned long clibx_hashmap_djb2(void *key) {
+static inline unsigned long clibx_hashmap_djb2(void *key) {
     unsigned long hash = 5381;
     int c;
-    clibx_str s = (clibx_str)key;
+    str s = (str)key;
     while ((c = *s++))
         hash = ((hash << 5) + hash) + c;
     return hash;
 }
 
-XDEF int clibx_hashmap_str_cmp(void *a, void *b) {
-    return CLIBX_STREQ((clibx_str)a, (clibx_str)b);
+static inline int clibx_hashmap_str_cmp(void *a, void *b) {
+    return STREQ((str)a, (str)b);
 }
 
 typedef struct clibx_hashmap_entry {
@@ -876,7 +872,7 @@ typedef struct {
 } clibx_hashmap;
 
 /*
- * clibx_hashmap_init
+ * hashmap_init
  * --------------------------------------
  * Create a new empty hashmap with custom callbacks.
  *
@@ -893,7 +889,7 @@ typedef struct {
  *   clibx_hashmap map = clibx_hashmap_init_str();
  * --------------------------------------
  */
-XDEF clibx_hashmap clibx_hashmap_init(
+static inline clibx_hashmap clibx_hashmap_init(
     clibx_hash_fn hash_fn,
     clibx_cmp_fn  cmp_fn,
     clibx_free_fn free_key,
@@ -906,13 +902,13 @@ XDEF clibx_hashmap clibx_hashmap_init(
     map.cmp_fn    = cmp_fn;
     map.free_key  = free_key;
     map.free_val  = free_val;
-    map.buckets   = CLIBX_NEW_ARRAY(clibx_hashmap_entry*, map.capacity);
+    map.buckets   = NEW_ARRAY(clibx_hashmap_entry*, map.capacity);
     memset(map.buckets, 0, sizeof(clibx_hashmap_entry*) * map.capacity);
     return map;
 }
 
 /*
- * clibx_hashmap_init_str
+ * hashmap_init_str
  * --------------------------------------
  * Convenience: create a string-to-string hashmap.
  * Uses DJB2 hashing, strcmp-based comparison, and free() for both keys and values.
@@ -924,7 +920,7 @@ XDEF clibx_hashmap clibx_hashmap_init(
  *   clibx_hashmap_free(&map);
  * --------------------------------------
  */
-XDEF clibx_hashmap clibx_hashmap_init_str(void) {
+static inline clibx_hashmap clibx_hashmap_init_str(void) {
     return clibx_hashmap_init(
         clibx_hashmap_djb2,
         clibx_hashmap_str_cmp,
@@ -934,7 +930,7 @@ XDEF clibx_hashmap clibx_hashmap_init_str(void) {
 }
 
 /*
- * clibx_hashmap_put
+ * hashmap_put
  * --------------------------------------
  * Insert or update a key-value pair.
  * The map takes ownership of both key and value pointers.
@@ -950,7 +946,7 @@ XDEF clibx_hashmap clibx_hashmap_init_str(void) {
  *   clibx_hashmap_put(&map, strdup("key"), strdup("value"), free, free);
  * --------------------------------------
  */
-XDEF void clibx_hashmap_put(
+static inline void clibx_hashmap_put(
     clibx_hashmap *map,
     void *key,
     void *value
@@ -969,7 +965,7 @@ XDEF void clibx_hashmap_put(
         entry = entry->next;
     }
 
-    clibx_hashmap_entry *new_entry = CLIBX_NEW_ZEROED(clibx_hashmap_entry);
+    clibx_hashmap_entry *new_entry = NEW_ZEROED(clibx_hashmap_entry);
     new_entry->key   = key;
     new_entry->value = value;
     new_entry->next  = map->buckets[hash];
@@ -978,7 +974,7 @@ XDEF void clibx_hashmap_put(
 }
 
 /*
- * clibx_hashmap_get
+ * hashmap_get
  * --------------------------------------
  * Look up a value by key.  Returns NULL if the key is not found.
  *
@@ -986,7 +982,7 @@ XDEF void clibx_hashmap_put(
  *   char *v = (char*)clibx_hashmap_get(&map, "name");
  * --------------------------------------
  */
-XDEF void *clibx_hashmap_get(clibx_hashmap *map, void *key) {
+static inline void *clibx_hashmap_get(clibx_hashmap *map, void *key) {
     unsigned long hash = map->hash_fn(key) % map->capacity;
     clibx_hashmap_entry *entry = map->buckets[hash];
 
@@ -999,7 +995,7 @@ XDEF void *clibx_hashmap_get(clibx_hashmap *map, void *key) {
 }
 
 /*
- * clibx_hashmap_contains
+ * hashmap_contains
  * --------------------------------------
  * Return non-zero if the key exists in the map.
  *
@@ -1007,12 +1003,12 @@ XDEF void *clibx_hashmap_get(clibx_hashmap *map, void *key) {
  *   if (clibx_hashmap_contains(&map, "name")) { ... }
  * --------------------------------------
  */
-XDEF clibx_bool clibx_hashmap_contains(clibx_hashmap *map, void *key) {
+static inline clibx_bool clibx_hashmap_contains(clibx_hashmap *map, void *key) {
     return clibx_hashmap_get(map, key) != NULL;
 }
 
 /*
- * clibx_hashmap_remove
+ * hashmap_remove
  * --------------------------------------
  * Remove a key-value pair from the map.
  * The key and value are freed via the map's free_key / free_val callbacks.
@@ -1022,7 +1018,7 @@ XDEF clibx_bool clibx_hashmap_contains(clibx_hashmap *map, void *key) {
  *   clibx_hashmap_remove(&map, "name");
  * --------------------------------------
  */
-XDEF int clibx_hashmap_remove(clibx_hashmap *map, void *key) {
+static inline int clibx_hashmap_remove(clibx_hashmap *map, void *key) {
     unsigned long hash = map->hash_fn(key) % map->capacity;
     clibx_hashmap_entry *entry = map->buckets[hash];
     clibx_hashmap_entry *prev = NULL;
@@ -1047,7 +1043,7 @@ XDEF int clibx_hashmap_remove(clibx_hashmap *map, void *key) {
 }
 
 /*
- * clibx_hashmap_free
+ * hashmap_free
  * --------------------------------------
  * Free all memory used by the hashmap.
  * Calls free_key / free_val on every entry before freeing the bucket array.
@@ -1056,7 +1052,7 @@ XDEF int clibx_hashmap_remove(clibx_hashmap *map, void *key) {
  *   clibx_hashmap_free(&map);
  * --------------------------------------
  */
-XDEF void clibx_hashmap_free(clibx_hashmap *map) {
+static inline void clibx_hashmap_free(clibx_hashmap *map) {
     for (size_t i = 0; i < map->capacity; i++) {
         clibx_hashmap_entry *entry = map->buckets[i];
         while (entry != NULL) {
@@ -1067,95 +1063,9 @@ XDEF void clibx_hashmap_free(clibx_hashmap *map) {
             entry = next;
         }
     }
-    CLIBX_FREE(map->buckets);
+    FREE(map->buckets);
     map->count    = 0;
     map->capacity = 0;
 }
-
-//
-// CLIBX_NO_PREFIX: unprefixed aliases for convenience
-//
-// When you #define CLIBX_NO_PREFIX before including this header,
-// all macros, types, and functions get short alias names without
-// the clibx_ / CLIBX_ prefix.
-//
-// Example:
-//   #define CLIBX_NO_PREFIX
-//   #include <clibx.h>
-//   // Now you can use MIN, MAX, FOR, ARRAY_SIZE, str, etc.
-//
-
-#ifdef CLIBX_NO_PREFIX
-
-#define str clibx_str
-#define ARRAY_SIZE CLIBX_ARRAY_SIZE
-#define MIN CLIBX_MIN
-#define MAX CLIBX_MAX
-#define CLAMP CLIBX_CLAMP
-#define ABS CLIBX_ABS
-#define LERP CLIBX_LERP
-#define IS_POWER_OF_2 CLIBX_IS_POWER_OF_2
-#define NEXT_POWER_OF_2 CLIBX_NEXT_POWER_OF_2
-#define NEW CLIBX_NEW
-#define NEW_ARRAY CLIBX_NEW_ARRAY
-#define NEW_ZEROED CLIBX_NEW_ZEROED
-#define FREE CLIBX_FREE
-#define SWAP CLIBX_SWAP
-#define LIKELY CLIBX_LIKELY
-#define UNLIKELY CLIBX_UNLIKELY
-#define UNUSED CLIBX_UNUSED
-#define DEPRECATED CLIBX_DEPRECATED
-#define NODISCARD CLIBX_NODISCARD
-#define TYPE_NAME CLIBX_TYPE_NAME
-#define TYPE_FUNC CLIBX_TYPE_FUNC
-#define LOG CLIBX_LOG
-#define ERROR CLIBX_ERROR
-#define ASSERT CLIBX_ASSERT
-#define UNIMPLEMENTED CLIBX_UNIMPLEMENTED
-#define UNREACHABLE CLIBX_UNREACHABLE
-#define FOR CLIBX_FOR
-#define FOR_RANGE CLIBX_FOR_RANGE
-#define BIT CLIBX_BIT
-#define SET_BIT CLIBX_SET_BIT
-#define CLEAR_BIT CLIBX_CLEAR_BIT
-#define TOGGLE_BIT CLIBX_TOGGLE_BIT
-#define CHECK_BIT CLIBX_CHECK_BIT
-#define STREQ CLIBX_STREQ
-#define STR_EMPTY CLIBX_STR_EMPTY
-#define STR_STARTS_WITH CLIBX_STR_STARTS_WITH
-#define STR_CONTAINS CLIBX_STR_CONTAINS
-#define TYPE_STR CLIBX_TYPE_STR
-#define PRINT CLIBX_PRINT
-#define print_int_array clibx_print_int_array
-#define print_double_array clibx_print_double_array
-#define print_char_array clibx_print_char_array
-#define read_line clibx_read_line
-#define vec_init clibx_vec_init
-#define vec_push clibx_vec_push
-#define vec_free clibx_vec_free
-#define strtrim clibx_strtrim
-#define strsplit clibx_strsplit
-#define strjoin clibx_strjoin
-#define str_to_lower clibx_str_to_lower
-#define str_to_upper clibx_str_to_upper
-#define path_basename clibx_path_basename
-#define path_dirname clibx_path_dirname
-#define path_extension clibx_path_extension
-#define path_join clibx_path_join
-#define path_exists clibx_path_exists
-#define path_is_dir clibx_path_is_dir
-#define path_is_file clibx_path_is_file
-#define path_file_size clibx_path_file_size
-#define hashmap_djb2 clibx_hashmap_djb2
-#define hashmap_str_cmp clibx_hashmap_str_cmp
-#define hashmap_init clibx_hashmap_init
-#define hashmap_init_str clibx_hashmap_init_str
-#define hashmap_put clibx_hashmap_put
-#define hashmap_get clibx_hashmap_get
-#define hashmap_contains clibx_hashmap_contains
-#define hashmap_remove clibx_hashmap_remove
-#define hashmap_free clibx_hashmap_free
-
-#endif /* CLIBX_NO_PREFIX */
 
 #endif /* CLIBX_H */

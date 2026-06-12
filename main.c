@@ -1,4 +1,5 @@
 #include <SDL3/SDL.h>
+#define CLIBX_NO_PREFIX
 #include "clibx.h"
 #include "config.h"
 #include "timer.h"
