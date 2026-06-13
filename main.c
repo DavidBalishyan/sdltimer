@@ -4,6 +4,10 @@
 #include "config.h"
 #include "timer.h"
 
+#ifndef GIT_HASH
+#define GIT_HASH "unknown"
+#endif
+
 static int parse_seconds(const char *s) {
     if (!s || !*s) return -1;
     int total = 0, cur = 0, has_unit = 0;
@@ -46,7 +50,7 @@ static void print_help(void) {
 }
 
 static void print_version(void) {
-    printf(NAME " " VERSION "\n");
+    printf(NAME "-%s\n", GIT_HASH);
 }
 
 int main(int argc, char *argv[]) {

@@ -3,7 +3,9 @@ BINDIR := $(PREFIX)/bin
 MANDIR := $(PREFIX)/share/man/man1
 MANPAGE := man/man1/sdltimer.1
 
-CFLAGS := -Wall -Wextra -Iinclude $(shell pkg-config --cflags sdl3)
+GIT_HASH := $(shell git rev-parse HEAD 2>/dev/null || echo unknown)
+
+CFLAGS := -Wall -Wextra -Iinclude $(shell pkg-config --cflags sdl3) -DGIT_HASH=\"$(GIT_HASH)\"
 LIBS := $(shell pkg-config --libs sdl3)
 OBJDIR := build
 

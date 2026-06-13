@@ -3,7 +3,6 @@
 #define CONFIG_H
 
 // App info
-#define VERSION "1.0"
 #define NAME "sdltimer"
 
 // Window sizes
