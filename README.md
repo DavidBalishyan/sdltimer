@@ -7,10 +7,12 @@ boolean type.  Renders the whole thing with nothing but SDL3 rectangles (no font
 
   - [SDL3](https://www.libsdl.org) (>= 3.2)
   - [clibx](https://github.com/DavidBalishyan/clibx) (self contained in the source code)
-  - a C compiler ([gcc](https://gcc.gnu.org) or [clang](https://clang.llvm.org))
-  - [pkg-config](https://gitlab.freedesktop.org/pkg-config/pkg-config)
+  - a C compiler ([gcc](https://gcc.gnu.org), [clang](https://clang.llvm.org), or MSVC)
+  - [pkg-config](https://gitlab.freedesktop.org/pkg-config/pkg-config) (Linux/macOS)
 
 ## building
+
+### Linux / macOS
 
     make
 
@@ -18,6 +20,16 @@ This puts the .o files under build/ and the sdltimer binary in the
 current directory. To clean up:
 
     make clean
+
+### Windows
+
+    .\build.ps1
+
+The script auto-detects MSVC (Visual Studio) or MinGW-w64 and looks
+for SDL3 in `$env:SDL3_DIR` or common install paths (e.g. `C:\SDL3`).
+To clean up:
+
+    .\build.ps1 -Target Clean
 
 ## installing
 
