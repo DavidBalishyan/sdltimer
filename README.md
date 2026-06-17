@@ -59,7 +59,7 @@ Once the window opens:
 
 ## colours
 
-  - **Running (countdown)** - smoothly shifts green → yellow → red as time
+  - **Running (countdown)** - smoothly shifts green &rarr; yellow &rarr; red as time
     drains, giving a visual cue of remaining time.
   - **Running (count-up)** - cycles through the same spectrum; the cycle
     period is configurable via `COUNTUP_CYCLE_SECS` in `config.h`.
